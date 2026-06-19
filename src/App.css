@@ -410,3 +410,23 @@ h3 {
     gap: 15px;
   }
 }
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .navbar h1 {
+    font-size: 2rem;
+  }
+
+  .pomodoro h1 {
+    font-size: 2.5rem;
+  }
+
+  .container {
+    padding: 0 10px;
+  }
+}
