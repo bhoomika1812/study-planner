@@ -60,6 +60,12 @@ function App() {
 
   return (
     <div className={darkMode ? "dark app" : "app"}>
+      <div className="bg-blobs">
+        <span className="blob blob-1"></span>
+        <span className="blob blob-2"></span>
+        <span className="blob blob-3"></span>
+      </div>
+
       <Navbar
         darkMode={darkMode}
         setDarkMode={setDarkMode}

@@ -21,9 +21,73 @@ body {
 }
 
 .app {
+  position: relative;
   min-height: 100vh;
   padding: 30px;
+  overflow-x: hidden;
   transition: background 0.4s ease;
+}
+
+/* FLOATING BACKGROUND BLOBS */
+
+.bg-blobs {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+}
+
+.blob-1 {
+  width: 420px;
+  height: 420px;
+  top: -120px;
+  left: -100px;
+  background: radial-gradient(circle, #818cf8, transparent 70%);
+  animation: floatBlob 16s ease-in-out infinite;
+}
+
+.blob-2 {
+  width: 480px;
+  height: 480px;
+  top: 30%;
+  right: -160px;
+  background: radial-gradient(circle, #f472b6, transparent 70%);
+  animation: floatBlob 20s ease-in-out infinite reverse;
+}
+
+.blob-3 {
+  width: 380px;
+  height: 380px;
+  bottom: -140px;
+  left: 25%;
+  background: radial-gradient(circle, #34d399, transparent 70%);
+  animation: floatBlob 24s ease-in-out infinite;
+}
+
+@keyframes floatBlob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, 30px) scale(1.1); }
+  66% { transform: translate(-30px, -20px) scale(0.95); }
+}
+
+.dark .blob {
+  opacity: 0.35;
+  mix-blend-mode: screen;
+}
+
+.navbar,
+.container {
+  position: relative;
+  z-index: 1;
 }
 
 .container {
@@ -34,6 +98,9 @@ body {
 button {
   border: none;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   font-family: inherit;
 }
@@ -44,6 +111,28 @@ button:hover {
 
 button:active {
   transform: translateY(0) scale(0.97);
+}
+
+/* glossy shine sweep on hover */
+button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    115deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 80%
+  );
+  background-size: 250% 100%;
+  background-position: 150% 0;
+  transition: background-position 0.6s ease;
+  pointer-events: none;
+}
+
+button:hover::before {
+  background-position: -50% 0;
 }
 
 @keyframes fadeUp {
@@ -90,15 +179,20 @@ button:active {
 
 .navbar button {
   background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+  background-size: 200% 200%;
   color: white;
   font-weight: 600;
   padding: 12px 20px;
   border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 6px 18px rgba(139, 92, 246, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-position 0.4s ease;
 }
 
 .navbar button:hover {
-  box-shadow: 0 10px 24px rgba(139, 92, 246, 0.5);
+  background-position: 100% 50%;
+  box-shadow: 0 12px 28px rgba(139, 92, 246, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* DASHBOARD */
@@ -246,16 +340,21 @@ button:active {
 .task-form button {
   height: 50px;
   padding: 0 26px;
-  background: linear-gradient(135deg, #6366f1, #ec4899);
+  background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+  background-size: 200% 200%;
   color: white;
   border-radius: 12px;
   font-weight: 700;
   letter-spacing: 0.3px;
-  box-shadow: 0 8px 20px rgba(236, 72, 153, 0.35);
+  box-shadow: 0 8px 20px rgba(236, 72, 153, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-position 0.4s ease;
 }
 
 .task-form button:hover {
-  box-shadow: 0 12px 26px rgba(236, 72, 153, 0.5);
+  background-position: 100% 50%;
+  box-shadow: 0 14px 30px rgba(236, 72, 153, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* PROGRESS */
@@ -344,15 +443,24 @@ h3 {
   color: white;
   font-weight: 600;
   font-size: 0.85rem;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .task button:first-child {
   background: linear-gradient(135deg, #06b6d4, #0ea5e9);
 }
 
+.task button:first-child:hover {
+  box-shadow: 0 10px 22px rgba(14, 165, 233, 0.45);
+}
+
 .task button:last-child {
   background: linear-gradient(135deg, #ec4899, #f43f5e);
+}
+
+.task button:last-child:hover {
+  box-shadow: 0 10px 22px rgba(244, 63, 94, 0.45);
 }
 
 /* EMPTY STATE */
@@ -429,11 +537,15 @@ h3 {
   color: white;
   font-weight: 600;
   backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .timer-buttons button:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 /* FOOTER */
