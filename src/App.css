@@ -642,15 +642,7 @@ h3 {
 
 @media (max-width: 768px) {
   .dashboard {
-    grid-template-columns: 1fr;
-  }
-
-  .search-filter {
-    flex-direction: column;
-  }
-
-  .task-form {
-    flex-direction: column;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .task {
@@ -679,5 +671,24 @@ h3 {
 
   .container {
     padding: 0 10px;
+  }
+
+  .app {
+    padding: 20px 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .search-filter {
+    flex-direction: column;
+  }
+
+  .task-form {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
